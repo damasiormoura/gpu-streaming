@@ -50,7 +50,16 @@ case $option in
             echo "Waiting for instance to be running..."
             sleep 5
         done
+
+        # generate nice dcv client file for instance
+        echo "Generating dcv client file..."
+        echo "[version]\nformat=1.0\n[connect]\nhost=$(aws ec2 describe-instances --instance-ids $gpu_id --query Reservations[*].Instances[*].[PublicDnsName] --output text)\nsessionid=console\nuser=administrator\npassword=teste#123\ncertificatevalidationpolicy=accept-untrusted" > gpu-streaming-$instance_name.dcv
+
+        
+        cat gpu-streaming-$instance_name.dcv
         ;;
+
+
 
 
     2)
